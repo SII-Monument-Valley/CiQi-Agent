@@ -12,7 +12,8 @@
 
 <p align="center">
   <strong>CiQi-Agent: Aligning Vision, Tools and Aesthetics in Multimodal Agent for Cultural Reasoning on Chinese Porcelains</strong><br>
-  <strong>Accepted to ECCV 2026</strong>
+  <strong>Accepted to ECCV 2026</strong><br>
+  <a href="https://ciqi-agent.sii.sh.cn"><strong>Try our Demo: ciqi-agent.sii.sh.cn</strong></a>
 </p>
 
 ## 🎯 Overview
