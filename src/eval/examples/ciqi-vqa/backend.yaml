@@ -1,0 +1,58 @@
+version: 1
+
+experiment:
+  name: ciqi-vqa-backend
+  task: selection
+
+datasets:
+  test:
+    path: ${CIQI_VQA_ROOT:-../../../../data/hf/ciqi-vqa}/test.jsonl
+    image_root: ${CIQI_VQA_ROOT:-../../../../data/hf/ciqi-vqa}
+
+model:
+  provider: openai
+  name: ${CIQI_EVAL_BACKEND_MODEL:-ciqi-agent}
+  base_url: ${CIQI_EVAL_BACKEND_BASE_URL}
+  api_key: ${CIQI_EVAL_BACKEND_API_KEY}
+  timeout: 300
+  retries: 2
+
+generation:
+  temperature: 0.0
+  max_tokens: 4096
+
+images:
+  resize: true
+  factor: 28
+  min_pixels: 3136
+  max_pixels: 313600
+  max_ratio: 200
+
+tools:
+  enabled: true
+  names: [image_zoom_in_tool, search_text, search_image]
+  rag:
+    base_url: ${CIQI_AGENT_RAG_API_URL}
+    api_key: ${CIQI_AGENT_RAG_API_KEY:-}
+    image_roots: []
+    top_k: 3
+    timeout: 120
+    retries: 3
+
+runtime:
+  concurrency: 1
+  max_tool_steps: 8
+  max_empty_responses: 2
+  continue_on_error: true
+
+output:
+  directory: ../../outputs
+  save_conversations: true
+  copy_config: true
+
+prompt:
+  system: >-
+    你是严谨的瓷器鉴赏智能体。一次只能调用一个工具；调用后等待工具结果再继续。
+    请区分图像证据、检索资料和推断。
+  user_prefix: 请根据图像与必要的检索证据完成题目。
+  final_instruction: 最终选项必须置于 <answer></answer> 标签中，例如 <answer>B</answer>。

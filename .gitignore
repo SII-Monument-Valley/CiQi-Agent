@@ -1,0 +1,47 @@
+# Local configuration and credentials
+.env
+configs/**/.env
+!configs/**/.env.example
+
+# Python / JavaScript environments
+**/.venv/
+**/__pycache__/
+**/.pytest_cache/
+**/.ruff_cache/
+**/*.egg-info/
+**/dist/
+**/uv.lock
+*.py[cod]
+**/node_modules/
+src/rag/bin/
+
+# Generated services and evaluation output
+artifacts/
+outputs/
+.qdrant-initialized
+
+# RAG corpus products are sensitive and independently reproducible
+data/processed/rag/
+*.npy
+*.index
+*_meta.jsonl
+build_manifest.json
+
+# Dataset/model weights live on Hugging Face, not in this source repository
+data/
+models/
+checkpoints/
+
+# Private training, application, and local migration material
+.sii/
+work/
+tmp/
+misc/
+configs/data/
+scripts/deploy/
+scripts/eval/serve_sota_448.sh
+scripts/rl/
+scripts/sft/
+src/app/
+src/data/
+src/utils/

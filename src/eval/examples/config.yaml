@@ -1,0 +1,70 @@
+version: 1
+
+experiment:
+  name: ciqi-example
+  task: selection
+
+datasets:
+  test:
+    path: data/sample.jsonl
+    image_root: data
+
+model:
+  provider: openai
+  name: ${CIQI_AGENT_MODEL:-ciqi-agent}
+  base_url: ${OPENAI_BASE_URL:-http://127.0.0.1:8000/v1}
+  api_key: ${OPENAI_API_KEY:-EMPTY}
+  timeout: 300
+  retries: 2
+
+generation:
+  temperature: 0.0
+  max_tokens: 2048
+  stop: []
+
+images:
+  resize: true
+  factor: 28
+  min_pixels: 3136
+  max_pixels: 313600
+  max_ratio: 200
+
+tools:
+  enabled: true
+  names:
+    - image_zoom_in_tool
+    - search_text
+    - search_image
+  rag:
+    base_url: ${CIQI_AGENT_RAG_API_URL:-http://127.0.0.1:8001}
+    api_key: ${CIQI_AGENT_RAG_API_KEY:-}
+    image_roots: []
+    top_k: 3
+    timeout: 120
+    retries: 3
+
+runtime:
+  concurrency: 4
+  max_tool_steps: 8
+  max_empty_responses: 2
+  continue_on_error: true
+
+output:
+  directory: outputs
+  save_conversations: true
+  copy_config: true
+
+prompt:
+  system: >-
+    你是一个严谨的瓷器鉴赏助手。一次只调用一个工具；得到工具结果后再决定下一步。
+  user_prefix: 请根据给定信息回答问题。
+  final_instruction: 最终选项必须置于 <answer></answer> 标签中，例如 <answer>B</answer>。
+
+# Optional. Keep credentials in environment variables.
+judge:
+  model: ${CIQI_AGENT_JUDGE_MODEL:-judge}
+  base_url: ${CIQI_AGENT_JUDGE_BASE_URL:-http://127.0.0.1:8000/v1}
+  api_key: ${CIQI_AGENT_JUDGE_API_KEY:-EMPTY}
+  concurrency: 8
+  max_attempts: 3
+  max_tokens: 2048

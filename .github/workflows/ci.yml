@@ -1,0 +1,26 @@
+name: ci
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  evaluation:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v6
+        with:
+          python-version: "3.11"
+          enable-cache: true
+      - run: uv sync --project src/eval --extra dev
+      - run: uv run --project src/eval ruff check src/eval/ciqi_eval src/eval/tests
+      - run: uv run --project src/eval pytest -q src/eval/tests
+      - run: uv run --project src/eval ciqi-eval validate --config src/eval/examples/config.yaml
+
+  static-checks:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: python -m compileall -q src/rag scripts/model
+      - run: bash -n scripts/model/serve_sglang.sh scripts/rag/*.sh

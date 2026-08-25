@@ -1,0 +1,46 @@
+version: 1
+
+experiment:
+  name: ciqi-vqa-gemini
+  task: selection
+
+datasets:
+  test:
+    path: ${CIQI_VQA_ROOT:-../../../../data/hf/ciqi-vqa}/test.jsonl
+    image_root: ${CIQI_VQA_ROOT:-../../../../data/hf/ciqi-vqa}
+
+model:
+  provider: gemini
+  name: ${GEMINI_MODEL:-gemini-2.5-pro}
+  base_url: ${GEMINI_BASE_URL:-https://generativelanguage.googleapis.com/v1beta}
+  api_key: ${GEMINI_API_KEY}
+  timeout: 300
+  retries: 2
+
+generation:
+  temperature: 0.0
+  max_tokens: 4096
+
+images:
+  resize: true
+  factor: 28
+  min_pixels: 3136
+  max_pixels: 313600
+  max_ratio: 200
+
+tools:
+  enabled: false
+
+runtime:
+  concurrency: 1
+  max_tool_steps: 8
+  continue_on_error: true
+
+output:
+  directory: ../../outputs
+  save_conversations: true
+  copy_config: true
+
+prompt:
+  system: 你是严谨的瓷器鉴赏助手。请根据图像回答选择题。
+  final_instruction: 最终选项必须置于 <answer></answer> 标签中，例如 <answer>B</answer>。

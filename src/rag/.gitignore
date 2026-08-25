@@ -1,0 +1,12 @@
+.venv/
+bin/
+__pycache__/
+*.py[cod]
+uv.lock
+.env
+artifacts/
+qdrant_storage/
+*.npy
+*.index
+*_meta.jsonl
+build_manifest.json

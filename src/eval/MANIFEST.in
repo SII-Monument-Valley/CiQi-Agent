@@ -1,0 +1,3 @@
+recursive-include examples *.yaml *.jsonl
+prune examples/ciqi-vqa/outputs
+recursive-include scripts *.sh *.py

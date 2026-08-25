@@ -1,0 +1,12 @@
+[project]
+name = "ciqi-agent-model-server"
+version = "0.1.0"
+description = "SGLang model serving environment for ciqi-agent evaluation"
+requires-python = ">=3.10,<3.11"
+dependencies = [
+  "qwen-vl-utils==0.0.11",
+  "sglang[srt]==0.4.10.post2",
+]
+
+[tool.uv]
+package = false
