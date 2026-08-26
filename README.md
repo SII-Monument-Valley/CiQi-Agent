@@ -1,5 +1,5 @@
 <h1 align="center">
-  <img src="assets/ciqi-agent-logo.png" alt="CiQi-Agent logo" width="88" valign="middle">
+  <img src="assets/ciqi-logo.png" alt="CiQi-Agent logo" width="88" valign="middle">
   CiQi-Agent
 </h1>
 
